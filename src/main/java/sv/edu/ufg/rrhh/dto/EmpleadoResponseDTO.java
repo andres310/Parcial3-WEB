@@ -10,6 +10,7 @@ import sv.edu.ufg.rrhh.entity.Municipio;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -39,6 +40,8 @@ public class EmpleadoResponseDTO {
     private String municipio_name;
     private String complemento;
 
+    private BigDecimal salario = BigDecimal.valueOf(0.00);
+
     public EmpleadoResponseDTO(Empleado empleado, Departamento departamento, Municipio municipio) {
 
         this.id = empleado.getId();
@@ -56,6 +59,7 @@ public class EmpleadoResponseDTO {
         this.municipio_name = municipio.getNombre();
 
         this.complemento = empleado.getComplemento();
+
 
     }
 
@@ -75,5 +79,7 @@ public class EmpleadoResponseDTO {
         this.municipio_name = empleado.getMunicipio().getNombre();
 
         this.complemento = empleado.getComplemento();
+
+        this.salario = empleado.getSalario();
     }
 }

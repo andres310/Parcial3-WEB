@@ -4,6 +4,7 @@ import lombok.*;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Table(name = "empleados")
 @Entity(name = "Empleado")
@@ -27,6 +28,8 @@ public class Empleado {
     private Boolean status;
     private String motivoStatus;
 
+    private BigDecimal salario;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_departamento")
     private Departamento departamento;
@@ -44,6 +47,8 @@ public class Empleado {
         this.telefono = empleadoDTO.getTelefono();
         this.status = true;
         this.motivoStatus = "";
+
+        this.salario = BigDecimal.valueOf(0.00);
 
         this.departamento = empleadoDTO.getDepartamento();
         this.municipio = empleadoDTO.getMunicipio();

@@ -45,6 +45,17 @@ public class EmpleadoController {
 
     }
 
+    @PutMapping("/salario")
+    public ResponseEntity<EmpleadoResponseDTO> salario(@RequestBody @Valid EmpleadoDTO empleadoDTO,
+                                                         UriComponentsBuilder uriComponentsBuilder){
+
+        var response = empleadoService.save(empleadoDTO);
+
+        URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(response.getId()).toUri(); // Creamos URI dinamicamente.
+        return ResponseEntity.created(url).body(response); // HTTP Status 201 - Created With URI
+
+    }
+
     @PostMapping("/desactivar")
     public EmpleadoDTO desactivar(@RequestBody DesactivarEmpleadoDTO dto) {
         return this.empleadoService.desactivar(dto.getId(), dto.getMotivo());
