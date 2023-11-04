@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
 import sv.edu.ufg.rrhh.dto.EmpleadoResponseDTO;
+import sv.edu.ufg.rrhh.dto.EmpleadoSalarioDTO;
 import sv.edu.ufg.rrhh.entity.Departamento;
 import sv.edu.ufg.rrhh.entity.Empleado;
 import sv.edu.ufg.rrhh.entity.Municipio;
 import sv.edu.ufg.rrhh.repository.IDepartamentoRepository;
 import sv.edu.ufg.rrhh.repository.IEmpleadoRepository;
 import sv.edu.ufg.rrhh.repository.IMunicipioRepository;
+import sv.edu.ufg.rrhh.utils.SalarioUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -63,6 +66,19 @@ public class EmpleadoService {
         empleado.setMotivoStatus(motivo);
 
         return new EmpleadoDTO(empleadoRepository.save(empleado));
+    }
+
+    public EmpleadoResponseDTO setSalario(EmpleadoSalarioDTO empleadoSalarioDTO) {
+
+        Empleado empleado = this.empleadoRepository.findById(empleadoSalarioDTO.getId())
+                .orElseThrow(() -> new NoSuchElementException(String.format("No se encontro el empleado por su id: %s", empleadoSalarioDTO.getId())));
+
+        BigDecimal salarioLiquido = SalarioUtils.calcularSalarioLiquido(empleadoSalarioDTO.getSalario());
+        empleado.setSalario(salarioLiquido);
+
+
+        //return new EmpleadoDTO(empleadoRepository.save(empleado));
+        return new EmpleadoResponseDTO(empleado);
     }
 
 }

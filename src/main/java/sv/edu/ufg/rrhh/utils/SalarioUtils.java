@@ -1,13 +1,18 @@
 package sv.edu.ufg.rrhh.utils;
 
+import java.math.BigDecimal;
+
 public class SalarioUtils {
 
-    public static double calcularSalarioLiquido(double salario) {
+    public static BigDecimal calcularSalarioLiquido(double salario) {
         double isss = calcularISSS(salario);
         double afp = calcularAFP(salario);
         double renta = calcularRenta(salario, afp, isss);
 
-        return salario - (isss + afp + renta);
+
+        BigDecimal salarioLiquido = BigDecimal.valueOf(salario - (isss + afp + renta));
+
+        return salarioLiquido;
     }
 
     public static double calcularISSS(double salario) {
