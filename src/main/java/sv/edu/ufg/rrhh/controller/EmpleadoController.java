@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import sv.edu.ufg.rrhh.dto.DesactivarEmpleadoDTO;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
+import sv.edu.ufg.rrhh.dto.EmpleadoResponseDTO;
+import sv.edu.ufg.rrhh.entity.Empleado;
 import sv.edu.ufg.rrhh.service.EmpleadoService;
 
 import javax.validation.Valid;
@@ -25,7 +27,7 @@ public class EmpleadoController {
 
 
     @GetMapping
-    public List<EmpleadoDTO> listar(){
+    public List<EmpleadoResponseDTO> listar(){
         // Traemos el Listado de Medicos
         // Luego lo mapeamos utilizando el DTO DatosListadoMedico (Requiere constructor en el DTO para Mapearlo)
         // y lo hacemos una lista
@@ -33,8 +35,8 @@ public class EmpleadoController {
     }
 
     @PostMapping
-    public ResponseEntity<EmpleadoDTO> registrar(@RequestBody @Valid EmpleadoDTO empleadoDTO,
-                                                       UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<EmpleadoResponseDTO> registrar(@RequestBody @Valid EmpleadoDTO empleadoDTO,
+                                                         UriComponentsBuilder uriComponentsBuilder){
 
         var response = empleadoService.save(empleadoDTO);
 

@@ -3,10 +3,13 @@ package sv.edu.ufg.rrhh.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
+import sv.edu.ufg.rrhh.dto.EmpleadoResponseDTO;
 import sv.edu.ufg.rrhh.entity.Departamento;
 import sv.edu.ufg.rrhh.entity.Empleado;
+import sv.edu.ufg.rrhh.entity.Municipio;
 import sv.edu.ufg.rrhh.repository.IDepartamentoRepository;
 import sv.edu.ufg.rrhh.repository.IEmpleadoRepository;
+import sv.edu.ufg.rrhh.repository.IMunicipioRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,23 +23,33 @@ public class EmpleadoService {
     @Autowired
     private IDepartamentoRepository departamentoRepository;
 
-    public List<EmpleadoDTO> listar(){
-        return empleadoRepository.findAll()
+    @Autowired
+    private IMunicipioRepository municipioRepository;
+
+    public List<EmpleadoResponseDTO> listar(){
+        /*return empleadoRepository.findAll()
                 .stream()
                 .map(EmpleadoDTO::new)
+                .collect(Collectors.toList());*/
+
+        //return empleadoRepository.findAll();
+        return empleadoRepository.findAll()
+                .stream()
+                .map(EmpleadoResponseDTO::new)
                 .collect(Collectors.toList());
 
     }
 
-    public EmpleadoDTO save(EmpleadoDTO empleadoDTO){
+    public EmpleadoResponseDTO save(EmpleadoDTO empleadoDTO){
 
         var empleado = new Empleado(empleadoDTO);
 
         Departamento departamento = departamentoRepository.getReferenceById(empleadoDTO.getDepartamento().getId());
+        Municipio municipio = municipioRepository.getReferenceById(empleadoDTO.getMunicipio().getId());
 
         empleadoRepository.save(empleado);
 
-        return new EmpleadoDTO(empleado);
+        return new EmpleadoResponseDTO(empleado, departamento, municipio);
 
     }
     public EmpleadoDTO desactivar(Integer id, String motivo) {
