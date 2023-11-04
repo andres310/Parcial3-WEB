@@ -1,2 +1,9 @@
-package sv.edu.ufg.rrhh.controller;public class DepartamentoController {
+package sv.edu.ufg.rrhh.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("")
+public class DepartamentoController {
 }
