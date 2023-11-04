@@ -34,6 +34,11 @@ public class EmpleadoController {
         return empleadoService.listar();
     }
 
+    @GetMapping("/{id}")
+    public EmpleadoResponseDTO obtenerPorId(@PathVariable Integer id) {
+        return empleadoService.obtenerPorId(id);
+    }
+
     @PostMapping
     public ResponseEntity<EmpleadoResponseDTO> registrar(@RequestBody @Valid EmpleadoDTO empleadoDTO,
                                                          UriComponentsBuilder uriComponentsBuilder){
@@ -43,6 +48,11 @@ public class EmpleadoController {
         URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(response.getId()).toUri(); // Creamos URI dinamicamente.
         return ResponseEntity.created(url).body(response); // HTTP Status 201 - Created With URI
 
+    }
+
+    @PutMapping ("/{id}")
+    public EmpleadoResponseDTO actualizar(@RequestBody @Valid EmpleadoDTO empleadoDTO) {
+        return empleadoService.actualizar(empleadoDTO);
     }
 
     @PutMapping("/salario")
@@ -59,5 +69,11 @@ public class EmpleadoController {
     @PostMapping("/desactivar")
     public EmpleadoDTO desactivar(@RequestBody DesactivarEmpleadoDTO dto) {
         return this.empleadoService.desactivar(dto.getId(), dto.getMotivo());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Integer id) {
+        empleadoService.eliminarPorId(id);
+        return ResponseEntity.ok("Registro eliminado");
     }
 }
