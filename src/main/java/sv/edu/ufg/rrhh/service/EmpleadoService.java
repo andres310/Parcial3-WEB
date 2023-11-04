@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
 import sv.edu.ufg.rrhh.dto.EmpleadoResponseDTO;
+import sv.edu.ufg.rrhh.dto.EmpleadoSalarioDTO;
 import sv.edu.ufg.rrhh.entity.Departamento;
 import sv.edu.ufg.rrhh.entity.Empleado;
 import sv.edu.ufg.rrhh.entity.Municipio;
 import sv.edu.ufg.rrhh.repository.IDepartamentoRepository;
 import sv.edu.ufg.rrhh.repository.IEmpleadoRepository;
 import sv.edu.ufg.rrhh.repository.IMunicipioRepository;
+import sv.edu.ufg.rrhh.utils.SalarioUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -52,25 +55,6 @@ public class EmpleadoService {
         return new EmpleadoResponseDTO(empleado, departamento, municipio);
 
     }
-
-    public EmpleadoResponseDTO actualizar(EmpleadoDTO empleadoDTO) {
-        Empleado empleadoActualizado = empleadoRepository.findById(empleadoDTO.getId())
-                .map(existente -> {
-                    existente.setMotivoStatus(empleadoDTO.getMotivoStatus());
-                    existente.setNombre(empleadoDTO.getNombre());
-                    existente.setStatus(empleadoDTO.getStatus());
-                    existente.setGenero(empleadoDTO.getGenero());
-                    existente.setApellido(empleadoDTO.getApellido());
-                    existente.setMunicipio(empleadoDTO.getMunicipio());
-                    existente.setDepartamento(empleadoDTO.getDepartamento());
-                    existente.setComplemento(empleadoDTO.getComplemento());
-                    //existente.setSalario(empleadoDTO.getS);
-                    existente.setTelefono(empleadoDTO.getTelefono());
-                    return existente;
-                }).orElseThrow(() -> new NoSuchElementException(String.format("No se encontro el empleado por su id: %s", empleadoDTO.getId())));
-        return new EmpleadoResponseDTO(empleadoRepository.save(empleadoActualizado));
-    }
-
     public EmpleadoDTO desactivar(Integer id, String motivo) {
         Empleado empleado = this.empleadoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(String.format("No se encontro el empleado por su id: %s", id)));
@@ -93,4 +77,17 @@ public class EmpleadoService {
     public void eliminarPorId(Integer id) {
         empleadoRepository.deleteById(id);
     }
+    public EmpleadoResponseDTO setSalario(EmpleadoSalarioDTO empleadoSalarioDTO) {
+
+        Empleado empleado = this.empleadoRepository.findById(empleadoSalarioDTO.getId())
+                .orElseThrow(() -> new NoSuchElementException(String.format("No se encontro el empleado por su id: %s", empleadoSalarioDTO.getId())));
+
+        BigDecimal salarioLiquido = SalarioUtils.calcularSalarioLiquido(empleadoSalarioDTO.getSalario());
+        empleado.setSalario(salarioLiquido);
+
+
+        //return new EmpleadoDTO(empleadoRepository.save(empleado));
+        return new EmpleadoResponseDTO(empleado);
+    }
+
 }

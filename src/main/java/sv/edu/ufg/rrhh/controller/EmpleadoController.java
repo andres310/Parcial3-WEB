@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import sv.edu.ufg.rrhh.dto.DesactivarEmpleadoDTO;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
 import sv.edu.ufg.rrhh.dto.EmpleadoResponseDTO;
+import sv.edu.ufg.rrhh.dto.EmpleadoSalarioDTO;
 import sv.edu.ufg.rrhh.entity.Empleado;
 import sv.edu.ufg.rrhh.service.EmpleadoService;
 
@@ -56,13 +57,13 @@ public class EmpleadoController {
     }
 
     @PutMapping("/salario")
-    public ResponseEntity<EmpleadoResponseDTO> salario(@RequestBody @Valid EmpleadoDTO empleadoDTO,
+    public ResponseEntity<EmpleadoResponseDTO> salario(@RequestBody @Valid EmpleadoSalarioDTO empleadoSalarioDTO,
                                                          UriComponentsBuilder uriComponentsBuilder){
 
-        var response = empleadoService.save(empleadoDTO);
+        var response = empleadoService.setSalario(empleadoSalarioDTO);
 
-        URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(response.getId()).toUri(); // Creamos URI dinamicamente.
-        return ResponseEntity.created(url).body(response); // HTTP Status 201 - Created With URI
+        return ResponseEntity.ok(response);
+
 
     }
 
