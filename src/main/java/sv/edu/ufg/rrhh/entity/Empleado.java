@@ -1,9 +1,6 @@
 package sv.edu.ufg.rrhh.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
 
 import javax.persistence.*;
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Table(name = "empleados")
 @Entity(name = "Empleado")
 @Getter //Genera Getters Lombok
+@Setter
 @NoArgsConstructor //Genera Constructor Vacio Lombok
 @AllArgsConstructor //Genera Construtor con Parametros Lombok
 @EqualsAndHashCode(of = "id") // Para comparaciones entre medicos Lombok
@@ -26,7 +24,7 @@ public class Empleado {
     private String genero;
     private String telefono;
 
-    private boolean status;
+    private Boolean status;
     private String motivoStatus;
 
     //@Embedded

@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import sv.edu.ufg.rrhh.dto.DesactivarEmpleadoDTO;
 import sv.edu.ufg.rrhh.dto.EmpleadoDTO;
 import sv.edu.ufg.rrhh.service.EmpleadoService;
 
@@ -34,4 +35,8 @@ public class EmpleadoController {
 
     }
 
+    @PostMapping("/desactivar")
+    public EmpleadoDTO desactivar(@RequestBody DesactivarEmpleadoDTO dto) {
+        return this.empleadoService.desactivar(dto.getId(), dto.getMotivo());
+    }
 }
