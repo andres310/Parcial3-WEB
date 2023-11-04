@@ -5,14 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class EmpleadoDepartamentoDTO {
+public class DepartamentoDTO {
 
     private Integer id;
-
+    private String nombre;
 }

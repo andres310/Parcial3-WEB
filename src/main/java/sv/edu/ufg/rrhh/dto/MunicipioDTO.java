@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class EmpleadoMunicipioDTO {
+public class MunicipioDTO {
 
     private Integer id;
+    private String nombre;
 }

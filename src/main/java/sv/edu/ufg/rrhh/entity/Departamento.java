@@ -1,9 +1,8 @@
 package sv.edu.ufg.rrhh.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import sv.edu.ufg.rrhh.dto.DepartamentoDTO;
+
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +10,7 @@ import java.util.Objects;
 public class Departamento {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
     @OneToMany(mappedBy = "departamento")
@@ -19,8 +18,19 @@ public class Departamento {
 
     public Departamento() {}
 
+
     public Departamento(Integer id) {
         this.id = id;
+    }
+
+    public Departamento(Integer id, String nombre, List<Municipio> municipios) {
+        this.id = id;
+        this.nombre = nombre;
+        this.municipios = municipios;
+    }
+
+    public Departamento(DepartamentoDTO departamento) {
+        this.id = departamento.getId();
     }
 
     public Integer getId() {
