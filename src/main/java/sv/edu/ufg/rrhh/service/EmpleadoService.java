@@ -9,6 +9,7 @@ import sv.edu.ufg.rrhh.repository.IDepartamentoRepository;
 import sv.edu.ufg.rrhh.repository.IEmpleadoRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,4 +39,17 @@ public class EmpleadoService {
         return new EmpleadoDTO(empleado);
 
     }
+    public EmpleadoDTO desactivar(Integer id, String motivo) {
+        Empleado empleado = this.empleadoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("No se encontro el empleado por su id: %s", id)));
+
+        if (!empleado.getStatus())
+            throw new IllegalStateException(String.format("El empleado %s ya esta desactivado", empleado.getNombre()));
+
+        empleado.setStatus(false);
+        empleado.setMotivoStatus(motivo);
+
+        return new EmpleadoDTO(empleadoRepository.save(empleado));
+    }
+
 }
