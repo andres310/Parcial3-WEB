@@ -43,6 +43,24 @@ public class EmpleadoService {
 
     }
 
+    public EmpleadoResponseDTO actualizar(EmpleadoDTO empleadoDTO) {
+        Empleado empleadoActualizado = empleadoRepository.findById(empleadoDTO.getId())
+                .map(existente -> {
+                    existente.setMotivoStatus(empleadoDTO.getMotivoStatus());
+                    existente.setNombre(empleadoDTO.getNombre());
+                    existente.setStatus(empleadoDTO.getStatus());
+                    existente.setGenero(empleadoDTO.getGenero());
+                    existente.setApellido(empleadoDTO.getApellido());
+                    existente.setMunicipio(empleadoDTO.getMunicipio());
+                    existente.setDepartamento(empleadoDTO.getDepartamento());
+                    existente.setComplemento(empleadoDTO.getComplemento());
+                    //existente.setSalario(empleadoDTO.getS);
+                    existente.setTelefono(empleadoDTO.getTelefono());
+                    return existente;
+                }).orElseThrow(() -> new NoSuchElementException(String.format("No se encontro el empleado por su id: %s", empleadoDTO.getId())));
+        return new EmpleadoResponseDTO(empleadoRepository.save(empleadoActualizado));
+    }
+
     public EmpleadoResponseDTO save(EmpleadoDTO empleadoDTO){
 
         var empleado = new Empleado(empleadoDTO);
